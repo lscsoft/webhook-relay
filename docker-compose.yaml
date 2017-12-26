@@ -1,0 +1,30 @@
+---
+version: "3"
+services:
+  proxy:
+    image: "nginx:latest"
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/mysite.template:ro
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      - PROXY_PORT=8080
+    command: /bin/bash -c "envsubst '$$PROXY_PORT' < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    depends_on:
+      - relay
+  relay:
+    build: ./relay
+    depends_on:
+      - redis
+  worker:
+    build: ./worker
+    depends_on:
+      - redis
+  redis:
+    image: "redis:alpine"
+    command: redis-server --appendonly yes
+    volumes:
+      - keyvalstore:/data
+
+volumes:
+  keyvalstore:

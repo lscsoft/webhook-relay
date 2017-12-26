@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Secret token</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<style>
+
+html, body {
+  height: 100%;
+  width: 75%
+}
+
+html {
+  display: table;
+  margin: auto;
+}
+
+body {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Roboto', sans-serif;
+}
+
+input[type='text'] { font-size: 14px; }
+
+.col1 {
+  text-align: left;
+  display: inline-block;
+  font-family: 'Roboto Mono', monospace;
+  width: 20%;
+}
+
+.col2 {
+  text-align: left;
+  display: inline-block;
+  font-family: 'Roboto Mono', monospace;
+  width: 75%;
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+<form method="POST" action={{ url_for("relaypoint_lock", relaypoint=relaypoint) }}>
+    {{ form.csrf_token }}
+    {{ form.lock.label}} : {{ form.lock }}<BR>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

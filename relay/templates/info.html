@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Webhook Information</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<style>
+
+html, body {
+  height: 100%;
+  width: 75%
+}
+
+html {
+  display: table;
+  margin: auto;
+}
+
+body {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Roboto', sans-serif;
+}
+
+.col1 {
+  text-align: left;
+  display: inline-block;
+  font-family: 'Roboto Mono', monospace;
+  width: 20%;
+}
+
+.col2 {
+  text-align: left;
+  display: inline-block;
+  font-family: 'Roboto Mono', monospace;
+  width: 65%;
+}
+
+.col3 {
+  text-align: right;
+  display: inline-block;
+  width: 15%;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+<script>
+new Clipboard(".copyButton");
+</script>
+<p style="font-size:125%;">
+The LIGO Webhook Service will validate and relay webhooks from/to
+<p>
+<span class="col1">Source</span><span class="col2">{{ src }}</span><span class="col3"></span><BR>
+{% for dest in destinations %}
+<span class="col1">Destination</span><span class="col2">{{ dest }}</span><span class="col3"></span>
+{% endfor %}
+<p style="font-size:125%;">
+Please configure your webhook source with the following
+<p>
+<span class="col1">Token</span><span id="token" class="col2">{{ token }}</span><span class="col3">
+      <button class="copyButton" data-clipboard-target="#token">
+        <img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/svg/clippy.svg" alt="Copy to clipboard">
+      </button></span><BR>
+<span class="col1">URL</span><span id="relaypoint_uri" class="col2">{{ relaypoint_uri }}</span><span class="col3">
+      <button class="copyButton" data-clipboard-target="#relaypoint_uri">
+        <img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/svg/clippy.svg" alt="Copy to clipboard">
+      </button></span>
+<p style="font-size:125%;font-style:italic;color:red;">
+{% if locked == "False" %}
+This webhook is <A HREF="{{ url_for("relaypoint_lock", relaypoint=relaypoint) }}">unlocked!</A><BR>
+Until it is locked, more relay destinations may be added at <A HREF="{{ url_for("register") }}">LIGO Webhook Service</A><BR>
+Removing this webhook or a relay destination may be requested by e-mailing
+<A HREF="mailto:uwm-help@cgca.uwm.edu">uwm-help@cgca.uwm.edu</A>
+{% else %}
+This webhook has been locked.<BR>
+Further changes require administrator help available at
+<A HREF="mailto:uwm-help@cgca.uwm.edu">uwm-help@cgca.uwm.edu</A>
+{% endif %}
+
+{% endblock %}

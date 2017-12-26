@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>LIGO Webhook Service</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<style>
+
+html, body {
+  height: 100%;
+  width: 75%
+}
+
+html {
+  display: table;
+  margin: auto;
+}
+
+body {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Roboto', sans-serif;
+}
+
+input[type='text'] { font-size: 14px; }
+
+.col1 {
+  text-align: left;
+  display: inline-block;
+  font-family: 'Roboto Mono', monospace;
+  width: 20%;
+}
+
+.col2 {
+  text-align: left;
+  display: inline-block;
+  font-family: 'Roboto Mono', monospace;
+  width: 75%;
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+<h1>LIGO Webhook Registration</h1>
+
+<form method="POST" action={{ url_for('register') }}>
+    {{ form.csrf_token }}
+    {{ form.src.label(class="col1") }} {{ form.src(size=80,class="col2") }}<BR>
+
+    {% if form.src.errors %}
+        <ul style="color:red;">{% for error in form.src.errors %}<li class="col2">{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+
+    {{ form.dst.label(class="col1") }} {{ form.dst(size=80,class="col2") }}<BR>
+    <input type="submit" value="Go">
+
+    {% if form.dst.errors %}
+        <ul style="color:red;">{% for error in form.dst.errors %}<li class="col2">{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+
+</form>
+{% endblock %}

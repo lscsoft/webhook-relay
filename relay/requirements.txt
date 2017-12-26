@@ -1,0 +1,12 @@
+click==6.7
+Flask==0.12.2
+Flask-WTF==0.14.2
+itsdangerous==0.24
+Jinja2==2.10
+MarkupSafe==1.0
+redis==2.10.6
+Werkzeug==0.12.2
+WTForms==2.1
+gunicorn==19.7.1
+rq==0.9.2
+requests==2.18.4
